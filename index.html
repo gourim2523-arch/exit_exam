@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <section class="intro">
+      <p class="eyebrow">Serialized model interface</p>
+      <h1>Estimate the target value.</h1>
+      <p class="lede">Enter the twelve numeric inputs captured by the fitted scaler. The app keeps their trained order and applies the saved preprocessing artifact.</p>
+    </section>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="notice {{ category }}" role="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if artifact_error %}
+      <div class="notice error" role="alert">{{ artifact_error }}</div>
+    {% endif %}
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Regression model</p>
+          <h2>Input values</h2>
+        </div>
+        <span class="status">12 features</span>
+      </div>
+      <form action="{{ url_for('make_prediction') }}" method="post">
+        <div class="field-grid">
+          {% for feature in feature_names %}
+            <label class="field">
+              <span>{{ feature.replace('_', ' ')|title }}</span>
+              <input name="{{ feature }}" type="number" step="any" required placeholder="0">
+            </label>
+          {% endfor %}
+        </div>
+        <button type="submit">Run prediction <span aria-hidden="true">&#8594;</span></button>
+      </form>
+    </section>
+    <p class="footnote">Values are transformed with the supplied fitted scaler. No new preprocessing is fitted at prediction time.</p>
+  </main>
+</body>
+</html>

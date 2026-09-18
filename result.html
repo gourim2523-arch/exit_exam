@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prediction result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="shell result-shell">
+    <section class="result-card">
+      <p class="eyebrow">Prediction complete</p>
+      <h1>Estimated target value</h1>
+      <p class="result-value">{{ '%.6f'|format(prediction) }}</p>
+      <a class="secondary-button" href="{{ url_for('index') }}">Make another prediction <span aria-hidden="true">&#8594;</span></a>
+    </section>
+  </main>
+</body>
+</html>
